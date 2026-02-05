@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Report{% endblock %}
+
+{% block content %}
+
+<h3>Monthly Fee Report</h3>
+
+<form method="GET" class="row g-3 mb-3">
+    <div class="col-md-3">
+        <select name="month" class="form-control">
+            <option value="">Month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <input type="number" name="year" placeholder="Year" class="form-control">
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary">Filter</button>
+    </div>
+</form>
+<a href="{% url 'fees:export' %}?{% if month %}month={{ month }}{% endif %}{% if year %}&year={{ year }}{% endif %}"
+   class="btn btn-success mb-3">Export Excel
+</a>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tr>
+            <th>Student</th>
+            <th>Month</th>
+            <th>Year</th>
+            <th>Amount</th>
+        </tr>
+        {% for f in fees %}
+        <tr>
+            <td>{{ f.student.name }}</td>
+            <td>{{ f.get_month_display }}</td>
+            <td>{{ f.year }}</td>
+            <td>₹{{ f.amount }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<h5>Total Collection: ₹{{ total }}</h5>
+{% endblock %}

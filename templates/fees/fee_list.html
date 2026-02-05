@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Fees{% endblock %}
+
+{% block content %}
+
+<h3>Fee Records</h3>
+
+<a href="{% url 'fees:add' %}" class="btn btn-primary mb-3">+ Add Payment</a>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Student</th>
+            <th>Month</th>
+            <th>Year</th>
+            <th>Amount</th>
+            <th>Mode</th>
+            <th>Receipt</th>
+            <th>Download</th>
+        </tr>
+        {% for f in fees %}
+        <tr>
+            <td>{{ f.student.name }}</td>
+            <td>{{ f.get_month_display }}</td>
+            <td>{{ f.year }}</td>
+            <td>₹{{ f.amount }}</td>
+            <td>{{ f.payment_mode }}</td>
+            <td>{{ f.receipt_no }}</td>
+            <td>
+                <a href="{% url 'fees:receipt' f.id %}" class="btn btn-sm btn-success">PDF</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Students{% endblock %}
+
+{% block content %}
+
+<h2>Students List</h2>
+
+<a href="{% url 'students:add' %}"
+   class="btn btn-primary mb-3">
+   + Add Student
+</a>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Photo</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for s in students %}
+        <tr>
+            <td>{{ s.id }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.phone }}</td>
+            <td>
+                {% if s.photo %}
+                <img src="{{ s.photo.url }}" width="50">
+                {% endif %}
+            </td>
+            <td>{{ s.is_active|yesno:"Active,Inactive" }}</td>
+            <td class="d-flex gap-2">
+                <a href="{% url 'students:edit' s.id %}" class="btn btn-sm btn-warning">
+                    Edit
+                </a>
+                <a href="{% url 'students:delete' s.id %}" class="btn btn-sm btn-danger">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
